@@ -8,7 +8,7 @@ import Tokens
 -- posn es la plantilla especifica de alex para tener a disposicion las filas y columnas del texto
 %wrapper "posn"
 
--- 1. Macros de conjuntos de caracteres
+-- Expresiones
 $digit    = [0-9]                     -- Expresion regular para numeros decimales
 $alpha    = [a-zA-ZáéíóúÁÉÍÓÚñÑ]      -- Expresion regular para letras de la a a la z, letras de la A a la Z, las vocales acentuadas y ñÑ
 $notDash  = [\x00-\x2c \x2e-\xff]     -- Cualquier carácter ASCII excepto el guion (\x2d)
@@ -16,11 +16,11 @@ $notId    = [\x00-\x23 \x25-\xff]     -- Cualquier carácter ASCII excepto el d�
 
 tokens :-
 
-  -- 2. Ignorados (Espacios y Comentarios)
+  -- Ignorados (Espacios y Comentarios)
   $white+;    -- espacios, tabulaciones y saltos de linea
   "$-" ( $notDash | \x2d+ $notId )* \x2d* "-$" ; -- comentarios
 
-  -- 3. Palabras Clave (Keywords)           -- Aca ignoramos con _ porque el valor es constante y no lo vamos a usar en la impresion posterior
+  -- Palabras Clave (Keywords)              -- Aca ignoramos con _ porque el valor es constante y no lo vamos a usar en la impresion posterior
   "create"                            { \pos _ -> Token (getFila pos) (getColumna pos) TkCreate } 
   "while"                             { \pos _ -> Token (getFila pos) (getColumna pos) TkWhile }
   "if"                                { \pos _ -> Token (getFila pos) (getColumna pos) TkIf }
@@ -43,11 +43,11 @@ tokens :-
   "array"                             { \pos _ -> Token (getFila pos) (getColumna pos) TkArray }
   "list"                              { \pos _ -> Token (getFila pos) (getColumna pos) TkList }
 
-  -- 4. Literales Booleanos
+  -- Literales Booleanos
   "true"                              { \pos _ -> Token (getFila pos) (getColumna pos) TkTrue }
   "false"                             { \pos _ -> Token (getFila pos) (getColumna pos) TkFalse }
 
-  -- 5. Operadores y Separadores
+  -- Operadores y Separadores
   ","                                 { \pos _ -> Token (getFila pos) (getColumna pos) TkComa }
   "."                                 { \pos _ -> Token (getFila pos) (getColumna pos) TkPunto }
   ":"                                 { \pos _ -> Token (getFila pos) (getColumna pos) TkDosPuntos }
@@ -67,15 +67,15 @@ tokens :-
   ">="                                { \pos _ -> Token (getFila pos) (getColumna pos) TkMayorIgual }
   "="                                 { \pos _ -> Token (getFila pos) (getColumna pos) TkIgual }
 
-  -- 6. Literales Numéricos y de Caracteres   -- Aca s puede ser cualquier valor (que haga match) y lo necesitamos para la impresion
+  -- Literales Numéricos y de Caracteres   -- Aca s puede ser cualquier valor (que haga match) y lo necesitamos para la impresion
   $digit+                             { \pos s -> Token (getFila pos) (getColumna pos) (TkNum (read s)) }       
   \' [^\'] \'                         { \pos s -> Token (getFila pos) (getColumna pos) (TkCaracter (s !! 1)) }
 
-  -- 7. Identificadores (Variables, funciones, etc.)
+  -- Identificadores (Variables, funciones, etc.)
   -- Empiezan con letra y pueden seguir con letras, números o guion bajo, el * indica que puede ser cualquier cantidad
   $alpha [$alpha $digit \_]*          { \pos s -> Token (getFila pos) (getColumna pos) (TkIdent s) }
 
-  -- 8. Manejo de Errores Léxicos
+  -- Errores Léxicos
   .                                   { \pos s -> Token (getFila pos) (getColumna pos) (TkError (head s)) }
 
 {

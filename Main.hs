@@ -27,8 +27,8 @@ main :: IO ()
 main = do
     args <- getArgs
     
-    case args of -- Exactamente un archivo
-        [archivo] -> do
+    case args of 
+        [archivo] -> do -- Exactamente un archivo
             contenido <- readFile archivo
             
             -- Generamos la lista completa (mezclada con válidos y errores)
