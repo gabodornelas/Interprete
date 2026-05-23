@@ -3,7 +3,7 @@ module Main where
 import System.Environment (getArgs)                 -- Para los argumentos que trae el ejecutable (el archivo)
 import System.Exit (exitFailure)                    -- Para terminar el programa
 import Data.List (partition, intercalate)           -- Importamos la herramienta para dividir listas y la herramienta para imprimir de forma intercalada
-import Lexer (alexScanTokens)                       -- El analizador
+import Reglas (alexScanTokens)                       -- El analizador
 import Tokens                                       -- Los Tokens que definimos
 
 -- Función que solo convierte el token a texto (para imprimirlo)

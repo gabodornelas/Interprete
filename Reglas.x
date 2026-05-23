@@ -1,5 +1,5 @@
 {
-module Lexer where
+module Reglas where
 
 import Tokens
 }
