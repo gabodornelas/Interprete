@@ -16,9 +16,9 @@ Si tienes `cabal` (el gestor de paquetes de Haskell) instalado, puedes instalar 
 
 ## 📂 Estructura del Proyecto
 
-* `Lexer.x`: Es el archivo principal de reglas léxicas. Aquí se definen las expresiones regulares y las acciones semánticas. **Este es el archivo principal que se modifica.**
+* `Lexer.x`: Es el archivo principal de reglas léxicas. Aquí se definen las expresiones regulares y las acciones semánticas.
 * `Tokens.hs`: Contiene la definición de los tipos de datos para los tokens (ej. `Token`, `TokenClass`) y la lógica base de cómo representarlos.
-* `Main.hs`: Es el director del programa. Lee el archivo de entrada, llama al lexer para procesarlo, y maneja la lógica de validación e impresión (lista de válidos separada por comas o listado de errores).
+* `Main.hs`: Es el programa principal. Lee el archivo de entrada, llama al lexer para procesarlo, y maneja la lógica de validación e impresión (lista de válidos o de errores).
 
 ---
 
@@ -40,7 +40,7 @@ Usa el compilador de Haskell (GHC) indicando que tu punto de entrada es el Main.
 ghc Main.hs -o LexBot
 ```
 
-### Paso 3: Ejecución
+### Paso 3: 🚀 Ejecución
 Una vez compilado, el programa espera recibir exactamente un argumento: la ruta del archivo de texto que quieres analizar.
 
 Para ejecutarlo, usa el siguiente comando:
@@ -48,5 +48,5 @@ Para ejecutarlo, usa el siguiente comando:
 En Linux
 
 ```Bash
-./LexBot archivo_prueba.bot
+./LexBot prueba.bot
 ```
