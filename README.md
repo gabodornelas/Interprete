@@ -1,6 +1,6 @@
 # Analizador Léxico (LexBot)
 
-Este proyecto implementa un analizador léxico (Lexer) escrito en Haskell. Utiliza la herramienta **Alex** para generar el código encargado de leer un archivo de texto fuente y convertir su contenido en una secuencia de tokens estructurados.
+Este proyecto implementa un analizador léxico escrito en Haskell. Utiliza la herramienta **Alex** para generar el código encargado de leer un archivo de texto fuente y convertir su contenido en una secuencia de tokens estructurados.
 
 ## 🛠️ Requisitos Previos
 
