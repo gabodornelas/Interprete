@@ -57,7 +57,7 @@ data TokenClass
   | TkMayorIgual
   | TkIgual
 
-  -- Aqui faltarina corchetes llaves, ampersand, puntoYcoma, etc (que no fueron mencionados para esta etapa)
+  -- Aqui faltaria corchetes llaves, ampersand, puntoYcoma, etc (que no fueron mencionados para esta etapa)
 
   | TkError Char        -- Characteres no definidos
   deriving (Eq)
