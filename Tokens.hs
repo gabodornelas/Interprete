@@ -5,7 +5,7 @@ type Fila    = Int
 type Columna = Int
 
 data TokenClass
-  -- 1. Palabras Clave (Keywords) presentes en el documento del enunciado del proyecto
+  -- Palabras Clave (Keywords) presentes en el documento del enunciado del proyecto
   = TkCreate            -- Palabra clave para crear (supongo, aunque en este punto su utilidad no es relevante, la idea de estos comentarios es rellenarlos cuando haya mas contexto en la etapa2)
   | TkWhile             -- Palabra clave para hacer un bucle
   | TkIf                -- Palabra clave para agregar una condicion
@@ -28,16 +28,16 @@ data TokenClass
   | TkArray             -- Palabra clave de Tipo de dato Arreglo
   | TkList              -- Palabra clave de Tipo de dato Lista
 
-  -- 2. Identificadores (Nombres de variables, funciones, etc.)
+  -- Identificadores (Nombres de variables, funciones, etc.)
   | TkIdent String
 
-  -- 3. Literales
+  -- Literales
   | TkNum Int          -- Literales numéricos enteros
   | TkTrue             -- Literal booleano verdadero
   | TkFalse            -- Literal booleano falso
   | TkCaracter Char    -- Literales de caracteres (ej. 'a')
 
-  -- 4. Operadores y Separadores
+  -- Operadores y Separadores
   | TkComa
   | TkPunto
   | TkDosPuntos
