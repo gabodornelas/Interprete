@@ -22,26 +22,36 @@ tokens :-
 
   -- Palabras Clave (Keywords)              -- Aca ignoramos con _ porque el valor es constante y no lo vamos a usar en la impresion posterior
   "create"                            { \pos _ -> Token (getFila pos) (getColumna pos) TkCreate } 
-  "while"                             { \pos _ -> Token (getFila pos) (getColumna pos) TkWhile }
-  "if"                                { \pos _ -> Token (getFila pos) (getColumna pos) TkIf }
-  "bool"                              { \pos _ -> Token (getFila pos) (getColumna pos) TkBool }
-  "int"                               { \pos _ -> Token (getFila pos) (getColumna pos) TkInt }
   "bot"                               { \pos _ -> Token (getFila pos) (getColumna pos) TkBot }
   "on"                                { \pos _ -> Token (getFila pos) (getColumna pos) TkOn }
   "activation"                        { \pos _ -> Token (getFila pos) (getColumna pos) TkActivation }
-  "store"                             { \pos _ -> Token (getFila pos) (getColumna pos) TkStore }
   "end"                               { \pos _ -> Token (getFila pos) (getColumna pos) TkEnd }
   "execute"                           { \pos _ -> Token (getFila pos) (getColumna pos) TkExecute }
   "activate"                          { \pos _ -> Token (getFila pos) (getColumna pos) TkActivate }
+  "advance"                           { \pos _ -> Token (getFila pos) (getColumna pos) TkAdvance }
+  "deactivate"                        { \pos _ -> Token (getFila pos) (getColumna pos) TkDeactivate }
+  "deactivation"                      { \pos _ -> Token (getFila pos) (getColumna pos) TkDeactivation }
 
--- Algunos que no estan en el enunciado
-  "for"                               { \pos _ -> Token (getFila pos) (getColumna pos) TkFor }
+  "if"                                { \pos _ -> Token (getFila pos) (getColumna pos) TkIf }
   "else"                              { \pos _ -> Token (getFila pos) (getColumna pos) TkElse }
-  "string"                            { \pos _ -> Token (getFila pos) (getColumna pos) TkString }
+  "while"                             { \pos _ -> Token (getFila pos) (getColumna pos) TkWhile }
+
+  "store"                             { \pos _ -> Token (getFila pos) (getColumna pos) TkStore }
+  "collect"                           { \pos _ -> Token (getFila pos) (getColumna pos) TkCollect }
+  "receive"                           { \pos _ -> Token (getFila pos) (getColumna pos) TkReceive }
+  "as"                                { \pos _ -> Token (getFila pos) (getColumna pos) TkAs }
+  "drop"                              { \pos _ -> Token (getFila pos) (getColumna pos) TkDrop }
+  "left"                              { \pos _ -> Token (getFila pos) (getColumna pos) TkLeft }
+  "right"                             { \pos _ -> Token (getFila pos) (getColumna pos) TkRight }
+  "up"                                { \pos _ -> Token (getFila pos) (getColumna pos) TkUp }
+  "down"                              { \pos _ -> Token (getFila pos) (getColumna pos) TkDown }
+  "read"                              { \pos _ -> Token (getFila pos) (getColumna pos) TkRead }
+  "send"                              { \pos _ -> Token (getFila pos) (getColumna pos) TkSend }
+  "default"                           { \pos _ -> Token (getFila pos) (getColumna pos) TkDefault }
+
+  "bool"                              { \pos _ -> Token (getFila pos) (getColumna pos) TkBool }
+  "int"                               { \pos _ -> Token (getFila pos) (getColumna pos) TkInt }
   "char"                              { \pos _ -> Token (getFila pos) (getColumna pos) TkChar }
-  "do"                                { \pos _ -> Token (getFila pos) (getColumna pos) TkDo }
-  "array"                             { \pos _ -> Token (getFila pos) (getColumna pos) TkArray }
-  "list"                              { \pos _ -> Token (getFila pos) (getColumna pos) TkList }
 
   -- Literales Booleanos
   "true"                              { \pos _ -> Token (getFila pos) (getColumna pos) TkTrue }
@@ -70,6 +80,10 @@ tokens :-
   -- Literales Numéricos y de Caracteres   -- Aca s puede ser cualquier valor (que haga match) y lo necesitamos para la impresion
   $digit+                             { \pos s -> Token (getFila pos) (getColumna pos) (TkNum (read s)) }       
   \' [^\'] \'                         { \pos s -> Token (getFila pos) (getColumna pos) (TkCaracter (s !! 1)) }
+  -- Caracteres especiales
+  \' \\ n \'          { \pos _ -> Token (getFila pos) (getColumna pos) (TkCaracter '\n') }
+  \' \\ t \'          { \pos _ -> Token (getFila pos) (getColumna pos) (TkCaracter '\t') }
+  \' \\ \' \'         { \pos _ -> Token (getFila pos) (getColumna pos) (TkCaracter '\'') }
 
   -- Identificadores (Variables, funciones, etc.)
   -- Empiezan con letra y pueden seguir con letras, números o guion bajo, el * indica que puede ser cualquier cantidad

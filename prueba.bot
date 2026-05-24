@@ -1,12 +1,38 @@
-create
-    int bot contador
-        on activation:
-            store 35.
-        end
-    end
+$- ========================================================= -$
+$- ARCHIVO DE PRUEBA EXHAUSTIVA PARA LEXBOT                  -$
+$- Este comentario y los espacios/saltos deben ser ignorados -$
+$- ========================================================= -$
 
-execute
-    $- Asignar al contador
-    el valor 35-$
-    activate contador.
-end
+$- 1. Palabras Clave de Creacion y Control -$
+create bot on activation end
+execute activate advance deactivate deactivation
+
+$- 2. Palabras Clave de Flujo y Acciones -$
+if else while
+store collect receive as drop
+left right up down read send default
+
+$- 3. Tipos de Datos y Literales Booleanos -$
+bool int char true false
+
+$- 4. Literales Numericos -$
+0 1 42 9999 
+
+$- 5. Identificadores (Poniendo a prueba el $alpha extendido) -$
+mi_robot_01
+año
+cálculo_rápido
+variable_Ñ
+
+$- 6. Caracteres Normales y Secuencias de Escape -$
+'x' '8' '-'
+'\n' '\t' '\''
+
+$- 7. Operadores y Separadores -$
+, . : ( )
++ - * / %
+/\ \/ ~
+< <= > >= =
+
+$- 8. Zona de Errores (Estos deben detonar tu TkError) -$
+$-@ ! ? #-$
