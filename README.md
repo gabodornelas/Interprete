@@ -28,7 +28,7 @@ El proceso de compilación consta de dos fases. Como usamos Alex, primero debemo
 
 Abre la terminal en la carpeta del proyecto y ejecuta estos pasos en orden:
 
-### Paso 1: Generar el Lexer
+### Paso 1: Generar las Relgas.hs
 Ejecute la herramienta Alex sobre el archivo de reglas:
 ```bash
 alex Reglas.x
