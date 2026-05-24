@@ -34,6 +34,7 @@ data TokenClass
   | TkSend              -- Palabra clave para escribir instrucciones en salida
   | TkDefault           -- Palabra clave para ejecutar el comportamiento asociado cuando el robot en cuestión está siendo avanzado y ninguna de las expresiones anteriores se cumple.  
 
+  | TkMe                -- Variable especial del robot
 
   | TkBool              -- Palabra clave de Tipo de dato booleano
   | TkInt               -- Palabra clave de Tipo de dato entero
@@ -67,6 +68,7 @@ data TokenClass
   | TkMayor
   | TkMayorIgual
   | TkIgual
+  | TkDesigual
 
   | TkError Char        -- Characteres no definidos
   deriving (Eq)
@@ -104,6 +106,8 @@ instance Show TokenClass where
     show TkSend         = "TkSend"
     show TkDefault      = "TkDefault"
 
+    show TkMe           = "TkMe"
+  
     -- Tipos de Datos
     show TkBool         = "TkBool"
     show TkInt          = "TkInt"
@@ -136,6 +140,7 @@ instance Show TokenClass where
     show TkMayor        = "TkMayor"
     show TkMayorIgual   = "TkMayorIgual"
     show TkIgual        = "TkIgual"
+    show TkDesigual     = "TkDesigual"
 
 -- El tipo principal
 data Token = Token Fila Columna TokenClass

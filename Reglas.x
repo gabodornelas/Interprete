@@ -19,6 +19,7 @@ tokens :-
   -- Ignorados (Espacios y Comentarios)
   $white+;    -- espacios, tabulaciones y saltos de linea
   "$-" ( $notDash | \x2d+ $notId )* \x2d* "-$" ; -- comentarios
+  \$\$ .* ;                                     -- comentario de una linea
 
   -- Palabras Clave (Keywords)              -- Aca ignoramos con _ porque el valor es constante y no lo vamos a usar en la impresion posterior
   "create"                            { \pos _ -> Token (getFila pos) (getColumna pos) TkCreate } 
@@ -49,6 +50,7 @@ tokens :-
   "send"                              { \pos _ -> Token (getFila pos) (getColumna pos) TkSend }
   "default"                           { \pos _ -> Token (getFila pos) (getColumna pos) TkDefault }
 
+  "me"                                { \pos _ -> Token (getFila pos) (getColumna pos) TkMe }
   "bool"                              { \pos _ -> Token (getFila pos) (getColumna pos) TkBool }
   "int"                               { \pos _ -> Token (getFila pos) (getColumna pos) TkInt }
   "char"                              { \pos _ -> Token (getFila pos) (getColumna pos) TkChar }
@@ -76,6 +78,7 @@ tokens :-
   ">"                                 { \pos _ -> Token (getFila pos) (getColumna pos) TkMayor }
   ">="                                { \pos _ -> Token (getFila pos) (getColumna pos) TkMayorIgual }
   "="                                 { \pos _ -> Token (getFila pos) (getColumna pos) TkIgual }
+  "/="                                { \pos _ -> Token (getFila pos) (getColumna pos) TkDesigual }
 
   -- Literales Numéricos y de Caracteres   -- Aca s puede ser cualquier valor (que haga match) y lo necesitamos para la impresion
   $digit+                             { \pos s -> Token (getFila pos) (getColumna pos) (TkNum (read s)) }       
