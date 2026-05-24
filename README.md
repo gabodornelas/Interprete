@@ -18,7 +18,7 @@ Si tienes `cabal` (el gestor de paquetes de Haskell) instalado, puedes instalar 
 
 * `Reglas.x`: Es el archivo principal de reglas léxicas. Aquí se definen las expresiones regulares y las acciones semánticas.
 * `Tokens.hs`: Contiene la definición de los tipos de datos para los tokens (ej. `Token`, `TokenClass`) y la lógica base de cómo representarlos.
-* `Main.hs`: Es el programa principal. Lee el archivo de entrada, llama al lexer para procesarlo, y maneja la lógica de validación e impresión (lista de válidos o de errores).
+* `Main.hs`: Es el programa principal. Lee el archivo de entrada, llama a las reglas para procesarlo, y maneja la lógica de validación e impresión (lista de válidos o de errores).
 
 ---
 
