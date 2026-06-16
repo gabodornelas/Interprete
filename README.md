@@ -8,9 +8,11 @@ Para poder compilar y ejecutar este proyecto, necesita tener instaladas las sigu
 
 1. **GHC (Glasgow Haskell Compiler):** El compilador estándar de Haskell.
 2. **Alex:** El generador de analizadores léxicos para Haskell.
+3. **Happy** El generador de analizadores sintácticos para Haskell.
 
-Si tienes `cabal` (el gestor de paquetes de Haskell) instalado, puedes instalar Alex ejecutando el siguiente comando en tu terminal:
+Si tienes `cabal` (el gestor de paquetes de Haskell) instalado, puedes instalar Alex y Happy ejecutando los siguientes comandos en tu terminal:
 `cabal install alex`
+`cabal install happy`
 
 ---
 
@@ -33,14 +35,21 @@ Ejecute la herramienta Alex sobre el archivo de reglas:
 ```bash
 alex Reglas.x
 ```
-### Paso 2: Compilar el Ejecutable
-Use el compilador de Haskell (GHC) indicando que el punto de entrada es el Main.hs. Le daremos el nombre LexBot al archivo ejecutable final:
 
-```Bash
-ghc Main.hs -o LexBot
+### Paso 2: Generar las Sintaxis.hs
+Ejecute la herramienta Happy sobre el archivo de reglas:
+```bash
+happy Sintaxis.y --ghc
 ```
 
-### Paso 3: 🚀 Ejecución
+### Paso 3: Compilar el Ejecutable
+Use el compilador de Haskell (GHC) indicando que el punto de entrada es el Main.hs. Le daremos el nombre SintBot al archivo ejecutable final:
+
+```Bash
+ghc Main.hs -o SintBot
+```
+
+### Paso 4: 🚀 Ejecución
 Una vez compilado, el programa espera recibir exactamente un argumento: la ruta del archivo de texto que quiere analizar.
 
 Para ejecutarlo, use el siguiente comando:
@@ -48,5 +57,5 @@ Para ejecutarlo, use el siguiente comando:
 En Linux
 
 ```Bash
-./LexBot prueba.bot
+./SintBot prueba.bot
 ```
