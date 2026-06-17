@@ -1,6 +1,6 @@
-# Interprete
+# Intérprete
 
-Este proyecto implementa un intérprete dividido por etapas (analizador léxico, analizador sintáctico, ...), con la ayuda de diferentes herramientas (alex, happy) y desarrollado en haskell.
+Este proyecto implementa un intérprete dividido por etapas (analizador léxico, analizador sintáctico, ...), con la ayuda de diferentes herramientas (alex, happy, ...) y desarrollado en haskell.
 
 ## 🛠️ Requisitos Previos
 
