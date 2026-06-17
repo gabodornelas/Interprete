@@ -1,12 +1,12 @@
 {
-module Parser where
+module Sintaxis where
 import Tokens
 import AST
 }
 
-%name parseBot
+%name sintBot
 %tokentype { Token }
-%error { parseError }
+%error { sintError }
 
 %token
     create       { Token _ _ TkCreate }
@@ -40,7 +40,7 @@ import AST
     true         { Token _ _ TkTrue }
     false        { Token _ _ TkFalse }
     me           { Token _ _ TkMe }
-    ident        { Token _ _ (TkIdent $$) }
+    ident        { Token _ _ (TkIdent $$) }         -- Los $$ representan el valor dentro del token
     num          { Token _ _ (TkNum $$) }
     charLit      { Token _ _ (TkCaracter $$) }
     ':'          { Token _ _ TkDosPuntos }
@@ -59,8 +59,8 @@ import AST
     '*'          { Token _ _ TkMult }
     '/'          { Token _ _ TkDiv }
     '%'          { Token _ _ TkMod }
-    '/\\'         { Token _ _ TkConjuncion }
-    '\\/'         { Token _ _ TkDisyuncion }
+    '/\\'        { Token _ _ TkConjuncion }
+    '\\/'        { Token _ _ TkDisyuncion }
     '~'          { Token _ _ TkNegacion }
 
 -- Reglas de Precedencia y Asociatividad (Según las tablas de las secciones 3.3 y 3.4 del PDF)
@@ -70,35 +70,46 @@ import AST
 %nonassoc '>' '<' '>=' '<=' '=' '/='
 %left '+' '-'
 %left '*' '/' '%'
-%right UMINUS '~'
+%right NEGATIVO '~'
 
 %%
 
+-- Gramaticas
+
+-- Genera declaraciones con instrucciones O solo instrucciones
 Program : create Decls execute Instrs end { Program $2 $4 }
         | execute Instrs end              { Program [] $2 }
 
+-- Genera una declaracion concatenada con mas declaraciones O la lista con solo una instruccion
 Decls : Decl Decls { $1 : $2 }
       | Decl       { [$1] }
 
+-- Genera una declaracion con su estructura
 Decl : Type bot IdList Behaviors end { Decl $1 $3 $4 }
 
+-- Genera un tipo entero, booleano o caracter
 Type : int  { TyInt }
      | bool { TyBool }
      | char { TyChar }
 
+-- Genera un ident intercalado con mas idents O una lista con un ident solo 
 IdList : ident ',' IdList { $1 : $3 }
        | ident            { [$1] }
 
+-- Genera un comportamiento seguido de mas comportamientos O <vacio>
 Behaviors : Behavior Behaviors { $1 : $2 }
           | {- empty -}        { [] }
 
+-- Genera un comportamiento con su estructura
 Behavior : on Condition ':' Instrs end { Behavior $2 $4 }
 
+-- Genera activacion O desactivacion O expresion O default
 Condition : activation   { OnActivation }
           | deactivation { OnDeactivation }
-          | default      { OnDefault }
           | Expr         { OnExpr $1 }
+          | default      { OnDefault }
 
+-- Genera una instruccion seguida de mas instrucciones O solo una instruccion
 Instrs : Instr Instrs { Seq $1 $2 }
        | Instr        { $1 }
 
@@ -110,7 +121,7 @@ Instr : activate IdList '.'                            { Activate $2 }
       | if Expr ':' Instrs else ':' Instrs end         { If $2 $4 (Just $7) }
       | if Expr ':' Instrs end                         { If $2 $4 Nothing }
       | while Expr ':' Instrs end                      { While $2 $4 }
-      | create Decls execute Instrs end                { Scope $2 $4 } 
+    --  | create Decls execute Instrs end                { Scope $2 $4 }  comentamos scope porque no esta especificado para esta entrega
       | store Expr '.'                                 { Store $2 }
       | collect as ident '.'                           { Collect (Just $3) }
       | collect '.'                                    { Collect Nothing }
@@ -122,37 +133,38 @@ Instr : activate IdList '.'                            { Activate $2 }
       | receive '.'                                    { Receive }
       | send '.'                                       { Send }
 
+-- Genera izquierda O derecha O arriba O abajo
 Dir : left  { DirLeft }
     | right { DirRight }
     | up    { DirUp }
     | down  { DirDown }
 
-Expr : num                  { LitInt $1 }
-     | true                 { LitBool True }
-     | false                { LitBool False }
-     | charLit              { LitChar $1 }
-     | ident                { Var $1 }
-     | me                   { Var "me" }
-     | '(' Expr ')'         { $2 }
-     | Expr '+' Expr        { BinOp Add $1 $3 }
-     | Expr '-' Expr        { BinOp Sub $1 $3 }
-     | Expr '*' Expr        { BinOp Mul $1 $3 }
-     | Expr '/' Expr        { BinOp Div $1 $3 }
-     | Expr '%' Expr        { BinOp Mod $1 $3 }
-     | Expr '/\\' Expr      { BinOp And $1 $3 }
-     | Expr '\\/' Expr      { BinOp Or $1 $3 }
-     | Expr '<' Expr        { BinOp Lt $1 $3 }
-     | Expr '<=' Expr       { BinOp Le $1 $3 }
-     | Expr '>' Expr        { BinOp Gt $1 $3 }
-     | Expr '>=' Expr       { BinOp Ge $1 $3 }
-     | Expr '=' Expr        { BinOp Eq $1 $3 }
-     | Expr '/=' Expr       { BinOp Neq $1 $3 }
-     | '-' Expr %prec UMINUS { UnOp Neg $2 }
-     | '~' Expr             { UnOp Not $2 }
+Expr : num                     { LitInt $1 }
+     | true                    { LitBool True }
+     | false                   { LitBool False }
+     | charLit                 { LitChar $1 }
+     | ident                   { Var $1 }
+     | me                      { Var "me" }
+     | '(' Expr ')'            { $2 }
+     | Expr '+' Expr           { OpBin Add $1 $3 }
+     | Expr '-' Expr           { OpBin Sub $1 $3 }
+     | Expr '*' Expr           { OpBin Mul $1 $3 }
+     | Expr '/' Expr           { OpBin Div $1 $3 }
+     | Expr '%' Expr           { OpBin Mod $1 $3 }
+     | Expr '/\\' Expr         { OpBin And $1 $3 }
+     | Expr '\\/' Expr         { OpBin Or $1 $3 }
+     | Expr '<' Expr           { OpBin Lt $1 $3 }
+     | Expr '<=' Expr          { OpBin Le $1 $3 }
+     | Expr '>' Expr           { OpBin Gt $1 $3 }
+     | Expr '>=' Expr          { OpBin Ge $1 $3 }
+     | Expr '=' Expr           { OpBin Eq $1 $3 }
+     | Expr '/=' Expr          { OpBin Neq $1 $3 }
+     | '-' Expr %prec NEGATIVO { OpUn Neg $2 }
+     | '~' Expr                { OpUn Not $2 }
 
 {
-parseError :: [Token] -> a
-parseError [] = error "Error sintáctico: fin de archivo inesperado."
-parseError (Token f c cls : _) = 
+sintError :: [Token] -> a
+sintError [] = error "Error sintáctico: fin de archivo inesperado."
+sintError (Token f c cls : _) = 
     error $ "Error sintáctico en fila " ++ show f ++ ", columna " ++ show c ++ " cerca del token " ++ show cls
 }

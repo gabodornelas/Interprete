@@ -1,17 +1,19 @@
 module Main where
 
-import System.Environment (getArgs)
-import System.Exit (exitFailure, exitSuccess)
-import Data.List (partition)
-import Reglas (alexScanTokens)
-import Tokens
-import Parser (parseBot)
-import AST (imprimir) -- Importamos la función de la clase de tipos
+import System.Environment (getArgs)                 -- Para los argumentos que trae el ejecutable (el archivo)
+import System.Exit (exitFailure, exitSuccess)       -- Para terminar el programa
+import Data.List (partition)                        -- Importamos la herramienta para dividir listas
+import Reglas (alexScanTokens)                      -- El analizador
+import Tokens                                       -- Los Tokens que definimos
+import Sintaxis (sintBot)                           -- La gramatica definida
+import AST (imprimir)                               -- Para imprimir el AST
 
+-- Función que dice si un Token es de clase TkError o no
 esError :: Token -> Bool
 esError (Token _ _ (TkError _)) = True
 esError _                       = False
 
+-- Imprime los errores con el formato indicado
 printError :: Token -> IO ()
 printError (Token fila col (TkError c)) =
     putStrLn $ "Error Léxico: Caracter inesperado \"" ++ [c] ++ "\" en la fila " ++ show fila ++ ", columna " ++ show col ++ "."
@@ -22,26 +24,30 @@ main = do
     args <- getArgs
     
     case args of 
-        [archivo] -> do
+        [archivo] -> do -- Exactamente un archivo
             contenido <- readFile archivo
+
+            -- Generamos la lista completa (mezclada con válidos y errores)
             let tokens = alexScanTokens contenido
             
+             -- Dividimos la lista en dos. 'partition' recibe la condición (esError) y la lista original
             let (errores, validos) = partition esError tokens
             
+            -- Verificamos si la lista de errores no está vacía
             if not (null errores)
                 then do
+                    -- Si no está vacía, hay errores léxicos. Los imprimimos y salimos.
                     mapM_ printError errores
                     exitFailure
                 else do
-                    -- 1. Analizamos la sintaxis
-                    let ast = parseBot validos
+                    -- Si está vacía, no hay errores, analizamos la sintaxis
+                    let ast = sintBot validos
                     
-                    -- 2. Usamos nuestra Clase de Tipos para imprimir el AST 
-                    -- de forma legible (nivel de indentación inicial 0)
+                    -- Mostramos el AST 
                     putStrLn $ imprimir 0 ast
                     
                     exitSuccess
 
-        _ -> do
-            putStrLn "Error: Uso: ./SintBot <Archivo>"
+        _ -> do -- nada o mas de un archivo
+            putStrLn "Error: Debes proporcionar un archivo de entrada. Ejemplo de ejecucion: ./SintBot <Archivo>"
             exitFailure
