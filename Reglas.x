@@ -39,7 +39,6 @@ tokens :-
 
   "store"                             { \pos _ -> Token (getFila pos) (getColumna pos) TkStore }
   "collect"                           { \pos _ -> Token (getFila pos) (getColumna pos) TkCollect }
-  "receive"                           { \pos _ -> Token (getFila pos) (getColumna pos) TkReceive }
   "as"                                { \pos _ -> Token (getFila pos) (getColumna pos) TkAs }
   "drop"                              { \pos _ -> Token (getFila pos) (getColumna pos) TkDrop }
   "left"                              { \pos _ -> Token (getFila pos) (getColumna pos) TkLeft }

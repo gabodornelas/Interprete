@@ -23,7 +23,6 @@ data TokenClass
 
   | TkStore             -- Palabra clave para evaluar la expresión en ⟨Expresión⟩ y almacenar el valor resultante como valor asociado del robot.
   | TkCollect           -- Palabra clave para tomar el valor que se encuentra almacenado en la posición de la matriz en la que el robot se encuentre.
-  | TkReceive           -- Palabra clave para lectura de un dato
   | TkAs                -- Palabra clave para declarar una variable cuyo nombre será ⟨Identificador⟩ y cuyo valor recopilado se almacenará en ella.  
   | TkDrop              -- Palabra clave para evaluar la expresión en ⟨Expresión⟩ y almacenar el valor resultante en la matriz, en la posición actual del robot.
   | TkLeft              -- Palabra clave para indicar el movimiento del robot a la izquierda.
@@ -95,7 +94,6 @@ instance Show TokenClass where
     -- Instrucciones de Robot
     show TkStore        = "TkStore"
     show TkCollect      = "TkCollect"
-    show TkReceive      = "TkReceive"
     show TkAs           = "TkAs"
     show TkDrop         = "TkDrop"
     show TkLeft         = "TkLeft"
