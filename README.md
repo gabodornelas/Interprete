@@ -1,6 +1,6 @@
 # Intérprete
 
-Este proyecto implementa un intérprete dividido por etapas (analizador léxico, analizador sintáctico, ...), con la ayuda de diferentes herramientas (alex, happy, ...) y desarrollado en haskell.
+Este proyecto implementa un intérprete dividido por etapas (analizador léxico, analizador sintáctico, ...), desarrollado en haskell con la ayuda de diferentes herramientas (alex, happy, ...).
 
 ## 🛠️ Requisitos Previos
 
@@ -20,10 +20,10 @@ Si tienes `cabal` (el gestor de paquetes de Haskell) instalado, puedes instalar 
 
 * `Reglas.x`: Es el archivo principal de reglas léxicas. Aquí se definen las expresiones regulares y las acciones semánticas.
 * `Tokens.hs`: Contiene la definición de los tipos de datos para los tokens (ej. `Token`, `TokenClass`) y la lógica base de cómo representarlos.
-* `Main.hs`: Es el programa principal. Lee el archivo de entrada, llama a las reglas para procesarlo, y maneja la lógica de validación e impresión (lista de válidos o de errores).
+* `Main.hs`: Es el programa principal de la etapa 1. Lee el archivo de entrada, llama a las reglas para procesarlo, y maneja la lógica de validación e impresión (lista de válidos o de errores).
 * `Sintaxis.y`: Es el archivo principal de reglas sintácticas. Recibe los tokens y aquí se definen las gramáticas.
 * `AST.hs`: Contiene la definición de clases de tipos (`NodoAST`) y los tipos de datos (ej. `Program`, `Decl`) para el Árbol Sintáctico Abstracto (Abstract Sintactic Tree) y la lógica de cómo representarlos.
-* `Main2.hs`: Es el programa principal. Lee el archivo de entrada, procesa los tokens, y maneja la lógica de validación. Luego analiza la sintáxis y muestra el Árbol Sintáctico Abstracto.
+* `Main2.hs`: Es el programa principal de la etapa 2. Lee el archivo de entrada, procesa los tokens, y maneja la lógica de validación. Luego analiza la sintáxis y muestra el Árbol Sintáctico Abstracto o el error sintáctico.
 ---
 
 ## ⚙️ Pasos para Compilar
@@ -39,7 +39,7 @@ alex Reglas.x
 ```
 
 ### Paso 2: Generar las Sintaxis.hs
-Ejecute la herramienta Happy sobre el archivo de sintaxis:
+Ejecute la herramienta Happy sobre el archivo de sintaxis con el flag `--ghc`:
 ```bash
 happy Sintaxis.y --ghc
 ```
