@@ -9,10 +9,12 @@ Para poder compilar y ejecutar este proyecto, necesita tener instaladas las sigu
 1. **GHC (Glasgow Haskell Compiler):** El compilador estándar de Haskell.
 2. **Alex:** El generador de analizadores léxicos para Haskell.
 3. **Happy:** El generador de analizadores sintácticos para Haskell.
+4. **mtl** Librería que provee el monad State (suele venir con la versión más reciente de Haskell, de lo contrario, instalarla)
 
 Si tienes `cabal` (el gestor de paquetes de Haskell) instalado, puedes instalar Alex, Happy y mtl ejecutando los siguientes comandos en tu terminal:
 `cabal install alex`,
-`cabal install happy`
+`cabal install happy` y de ser necesario
+`cabal install mtl` 
 
 ---
 
@@ -23,7 +25,7 @@ Si tienes `cabal` (el gestor de paquetes de Haskell) instalado, puedes instalar 
 * `Main.hs`: Es el programa principal de la etapa 1. Lee el archivo de entrada, llama a las reglas para procesarlo, y maneja la lógica de validación e impresión (lista de válidos o de errores).
 * `Sintaxis.y`: Es el archivo principal de reglas sintácticas. Recibe los tokens y aquí se definen las gramáticas.
 * `AST.hs`: Contiene la definición de clases de tipos (`NodoAST`) y los tipos de datos (ej. `Program`, `Decl`) para el Árbol Sintáctico Abstracto (Abstract Sintactic Tree) y la lógica de cómo representarlos.
-* `Main2.hs`: Es el programa principal de la etapa 2. Lee el archivo de entrada, procesa los tokens y maneja la lógica de validación. Luego analiza la sintáxisy, de ser correcta, muestra el Árbol Sintáctico Abstracto o el error sintáctico.
+* `Main2.hs`: Es el programa principal de la etapa 2. Lee el archivo de entrada, procesa los tokens y maneja la lógica de validación. Luego analiza la sintáxis y, de ser correcta, muestra el Árbol Sintáctico Abstracto o el error sintáctico.
 * `Contexto.hs`: Contiene el analizador de contexto. Implementa la tabla de símbolos jerárquica (mediante `Data.Map` y el monad `State`), la verificación de variables no declaradas o redeclaradas, el uso indebido de la palabra reservada `me`, y la verificación de tipos de expresiones e instrucciones.
 * `Main3.hs`: Es el programa principal de la etapa 3. Lee el archivo de entrada, procesa los tokens y maneja la lógica de validación. Luego analiza la sintaxis y, de ser correcta, ejecuta el análisis de contexto sobre el AST. Muestra los errores léxicos, el primer error sintáctico, todos los errores de contexto encontrados, o el AST si el programa es válido.
 
