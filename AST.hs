@@ -29,7 +29,7 @@ data Instr
     | Deactivate [String]
     | If Expr Instr (Maybe Instr)
     | While Expr Instr
-    | Scope [Decl] Instr           -- El alcance sera importante en futuras entregas
+    | Scope [Decl] Instr
     | Store Expr
     | Collect (Maybe String)
     | Drop Expr
@@ -59,7 +59,7 @@ instance NodoAST Program where
 instance NodoAST Instr where
 
     imprimir nivel (Seq i1 i2) = 
-        indentar nivel ++ --"\n" ++             -- en las comillas debe ir SECUENCIACIÓN antes de \n
+        -- indentar nivel ++ "SECUENCIACIÓN\n" ++
         imprimir nivel i1 ++ "\n" ++ 
         imprimir nivel i2
         
@@ -88,10 +88,9 @@ instance NodoAST Instr where
         indentar (nivel + 1) ++ "condición: " ++ imprimir (nivel + 1) cond ++ "\n" ++
         indentar (nivel + 1) ++ "éxito:\n" ++ imprimir (nivel + 2) instr
 
-    -- Omitimos por ahora porque aun no esta claro el alcance en el lenguaje BOT para esta etapa
-    --imprimir nivel (Scope decls instr) = 
-    --    indentar nivel ++ "INCORPORACIÓN ALCANCE\n" ++ 
-    --    indentar (nivel + 1) ++ "cuerpo:\n" ++ imprimir (nivel + 2) instr
+    imprimir nivel (Scope decls instr) = 
+        indentar nivel ++ "INCORPORACIÓN ALCANCE\n" ++ 
+        indentar (nivel + 1) ++ "cuerpo:\n" ++ imprimir (nivel + 2) instr
 
 --    imprimir nivel (Store exp) = 
 --        indentar nivel ++ "ALMACENAMIENTO\n" ++ 

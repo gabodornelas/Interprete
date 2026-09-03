@@ -121,7 +121,7 @@ Instr : activate IdList '.'                         { Activate $2 }
     | if Expr ':' Instrs else ':' Instrs end        { If $2 $4 (Just $7) }
     | if Expr ':' Instrs end                        { If $2 $4 Nothing }
     | while Expr ':' Instrs end                     { While $2 $4 }
---  | create Decls execute Instrs end               { Scope $2 $4 }  comentamos scope porque no esta especificado para esta entrega
+    | create Decls execute Instrs end               { Scope $2 $4 }
     | store Expr '.'                                { Store $2 }
     | collect as ident '.'                          { Collect (Just $3) }
     | collect '.'                                   { Collect Nothing }

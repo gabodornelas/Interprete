@@ -1,20 +1,21 @@
 create
-    int bot bar
+    int bot n
         on activation:
-            store 3.
+            store 0.
         end
-    end
-    int bot contador
         on default:
-            store 35.
+            store me + 1.
         end
     end
-
 execute
-    activate contador.
-    $- Asignar al contador
-    el valor 35, si bar > 2-$
-    if bar > 2:
-        advance contador.
+    activate n.
+    create
+        int bot extra
+        end
+    execute
+        activate extra.
+        while n < 5:
+            advance n.
+        end
     end
 end

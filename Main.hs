@@ -29,7 +29,8 @@ main = do
     
     case args of 
         [archivo] -> do -- Exactamente un archivo
-            contenido <- readFile archivo
+            contenidoOriginal <- readFile archivo
+            let contenido = map (\c -> if c == '\t' then ' ' else c) contenidoOriginal
             
             -- Generamos la lista completa (mezclada con válidos y errores)
             let tokens = alexScanTokens contenido

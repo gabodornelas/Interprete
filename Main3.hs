@@ -7,6 +7,7 @@ import Reglas (alexScanTokens)                      -- El analizador
 import Tokens                                       -- Los Tokens que definimos
 import Sintaxis (sintBot)                           -- La gramatica definida
 import AST (imprimir)                               -- Para imprimir el AST
+import Contexto (analizarPrograma)                  -- Para
 
 -- Función que dice si un Token es de clase TkError o no
 esError :: Token -> Bool
@@ -28,18 +29,18 @@ printErrorSint (Token f c cls : _) =
 main :: IO ()
 main = do
     args <- getArgs
-    
+
     case args of 
         [archivo] -> do -- Exactamente un archivo
             contenidoOriginal <- readFile archivo
             let contenido = map (\c -> if c == '\t' then ' ' else c) contenidoOriginal
-
+            
             -- Generamos la lista completa (mezclada con válidos y errores)
             let tokens = alexScanTokens contenido
             
              -- Dividimos la lista en dos. 'partition' recibe la condición (esError) y la lista original
             let (errores, validos) = partition esError tokens
-            
+
             -- Verificamos si la lista de errores no está vacía
             if not (null errores)
                 then do
@@ -53,12 +54,20 @@ main = do
                         Left tokensError -> do
                             printErrorSint tokensError
                             exitFailure
-                            
-                        -- Si la sintaxis fue correcta, imprimimos el AST
+                        
+                        -- Si la sintaxis fue correcta, analizamos el contexto
                         Right ast -> do
-                            putStrLn $ imprimir 0 ast
-                            exitSuccess
-
-        _ -> do -- nada o mas de un archivo
-            putStrLn "Error: Debes proporcionar un archivo de entrada. Ejemplo de ejecucion: ./SintBot <Archivo>"
+                            -- Análisis de Contexto
+                            let erroresContexto = analizarPrograma ast
+                            -- Si no hay errores de contexto, imprimimos el AST
+                            if null erroresContexto
+                                then do
+                                    putStrLn $ imprimir 0 ast
+                                    exitSuccess
+                                -- Si hay errores de contexto, los imprimimos
+                                else do
+                                    mapM_ putStrLn erroresContexto
+                                    exitFailure
+        _ -> do
+            putStrLn "Error: Debes proporcionar un archivo de entrada. Ejemplo: ./ContBot <Archivo>"
             exitFailure
