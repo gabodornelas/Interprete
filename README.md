@@ -9,12 +9,10 @@ Para poder compilar y ejecutar este proyecto, necesita tener instaladas las sigu
 1. **GHC (Glasgow Haskell Compiler):** El compilador estándar de Haskell.
 2. **Alex:** El generador de analizadores léxicos para Haskell.
 3. **Happy:** El generador de analizadores sintácticos para Haskell.
-4. **mtl:** Librería que provee el monad `State`, para el análisis de contexto.
 
 Si tienes `cabal` (el gestor de paquetes de Haskell) instalado, puedes instalar Alex, Happy y mtl ejecutando los siguientes comandos en tu terminal:
 `cabal install alex`,
-`cabal install happy`,
-`cabal install mtl`
+`cabal install happy`
 
 ---
 
