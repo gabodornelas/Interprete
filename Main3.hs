@@ -7,7 +7,7 @@ import Reglas (alexScanTokens)                      -- El analizador
 import Tokens                                       -- Los Tokens que definimos
 import Sintaxis (sintBot)                           -- La gramatica definida
 import AST (imprimir)                               -- Para imprimir el AST
-import Contexto (analizarPrograma)                  -- Para
+import Contexto (analizarPrograma)                  -- Para analizar el contexto
 
 -- Función que dice si un Token es de clase TkError o no
 esError :: Token -> Bool

@@ -144,7 +144,7 @@ checkCondition (OnExpr e)     = do
             "Error de tipo: la condición de un comportamiento debe ser de tipo bool, se encontró " ++ show otro ++ "."
         Nothing           -> return () -- el error ya fue reportado dentro de tipoExpr
 
--- instrucciones
+-- Instrucciones
 
 checkInstr :: Instr -> Analizador ()
 
