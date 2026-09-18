@@ -4,9 +4,10 @@ create
             read.
         end
         on default:
-            store me- 1.
+            store me - 1.
         end
     end
+
     int bot f
         on activation:
             store 0.
@@ -23,7 +24,7 @@ create
     end
 execute
     activate n, f.
-    while n > 0:
-        advance n, f.
+        while n > 0:
+            advance n, f.
     end
 end

@@ -1,6 +1,6 @@
 # Intérprete
 
-Este proyecto implementa un intérprete dividido por etapas (analizador léxico, analizador sintáctico, análisis de contexto, ...), desarrollado en haskell con la ayuda de diferentes herramientas (alex, happy, ...).
+Este proyecto implementa un intérprete dividido por etapas (analizador léxico, analizador sintáctico, análisis de contexto e intérprete), desarrollado en haskell con la ayuda de diferentes herramientas (alex, happy).
 
 ## 🛠️ Requisitos Previos
 
@@ -28,6 +28,8 @@ Si tienes `cabal` (el gestor de paquetes de Haskell) instalado, puedes instalar 
 * `Main2.hs`: Es el programa principal de la etapa 2. Lee el archivo de entrada, procesa los tokens y maneja la lógica de validación. Luego analiza la sintáxis y, de ser correcta, muestra el Árbol Sintáctico Abstracto o el error sintáctico.
 * `Contexto.hs`: Contiene el analizador de contexto. Implementa la tabla de símbolos jerárquica (mediante `Data.Map` y el monad `State`), la verificación de variables no declaradas o redeclaradas, el uso indebido de la palabra reservada `me`, y la verificación de tipos de expresiones e instrucciones.
 * `Main3.hs`: Es el programa principal de la etapa 3. Lee el archivo de entrada, procesa los tokens y maneja la lógica de validación. Luego analiza la sintaxis y, de ser correcta, ejecuta el análisis de contexto sobre el AST. Muestra los errores léxicos, el primer error sintáctico, todos los errores de contexto encontrados, o el AST si el programa es válido.
+* `Interprete.hs`: Contiene la lógica de ejecución del programa: la representación de los valores en tiempo de ejecución, el manejo de la memoria (alcances y matriz), la evaluación de expresiones, la ejecución de instrucciones y el manejo de los errores dinámicos.
+* `Main4.hs`: Es el programa principal de la etapa 4. Lee el archivo de entrada, procesa los tokens y maneja la lógica de validación. Luego analiza la sintaxis y, de ser correcta, ejecuta el análisis de contexto sobre el AST. Muestra los errores léxicos, el primer error sintáctico, todos los errores de contexto encontrados, o ejecuta el intérprete para el AST.
 
 ---
 
@@ -64,7 +66,12 @@ ghc Main2.hs -o SintBot
 ```Bash
 ghc Main3.hs -o ContBot
 ```
-GHC detecta automáticamente que `Main3.hs` importa `Contexto`, `Sintaxis`, `Reglas` y `Tokens`, y compila esos módulos (junto con `AST.hs`) siempre que estén en la misma carpeta. No hace falta invocar Alex/Happy de nuevo si ya lo hiciste en los Pasos 1 y 2 para esta misma carpeta de trabajo.
+* Para la etapa4:
+```Bash
+ghc Main4.hs -o bot
+```
+
+GHC detecta automáticamente que `Main4.hs` importa `Interprete`, `Contexto`, `Sintaxis`, `Reglas` y `Tokens`, y compila esos módulos (junto con `AST.hs`) siempre que estén en la misma carpeta. No hace falta invocar Alex/Happy de nuevo si ya lo hiciste en los Pasos 1 y 2 para esta misma carpeta de trabajo.
 
 ### Paso 4: 🚀 Ejecución
 Una vez compilado, el programa espera recibir exactamente un argumento: la ruta del archivo de texto que quiere analizar.
@@ -83,4 +90,8 @@ O
 O
 ```Bash
 ./ContBot prueba.bot
+```
+O
+```Bash
+./bot prueba.bot
 ```
